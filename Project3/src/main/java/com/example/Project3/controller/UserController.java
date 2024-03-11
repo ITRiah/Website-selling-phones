@@ -75,6 +75,14 @@ public class UserController {
 				.data(page)
 				.build();
 	}
+	
+	@GetMapping("/get-by-id")
+	public ResponseDTO<UserDTO> getById(@RequestParam("id") int id) {
+		UserDTO userDTO = service.getByID(id);
+		
+		return  ResponseDTO.<UserDTO>builder().status(200).data(userDTO).msg("done").build();
+
+	}
 
 	@DeleteMapping("/")
 	public ResponseDTO<Void> delete(@RequestParam("id") int id) {

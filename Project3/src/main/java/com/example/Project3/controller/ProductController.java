@@ -25,7 +25,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/admin/product")
 public class ProductController {
 	@Autowired
 	ProductService productService;

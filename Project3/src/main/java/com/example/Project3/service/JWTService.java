@@ -12,8 +12,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Service
 public class JWTService {
 	@Value("${jwt.secret:1233333333333333333333333333333333333333333333333333333}") //mặc định là 111...... nếu trong file application không có.
-	
 	private String secretKey;
+	
 	private long timeEnd = 5; //5 minutes
 	
 	//Gen token

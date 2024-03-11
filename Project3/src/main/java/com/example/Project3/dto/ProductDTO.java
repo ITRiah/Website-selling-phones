@@ -24,7 +24,7 @@ public class ProductDTO{
 	@Min(0)
 	private double price;
 	
-	@JsonIgnore
+	@JsonIgnore //k có không trả về khi get by id
 	private MultipartFile file;
 	
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")

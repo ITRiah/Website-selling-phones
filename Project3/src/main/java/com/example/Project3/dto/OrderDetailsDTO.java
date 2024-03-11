@@ -15,6 +15,8 @@ public class OrderDetailsDTO {
 					   // cần 1 jsonBack và 1 @JsonManagedReference
 	@JsonIncludeProperties("id") // bỏ đi thuộc tính tạo vòng lặp ở class chính
 	private OrderDTO order;
+	
+	private String color;
 
 	private ProductDTO product;
 	

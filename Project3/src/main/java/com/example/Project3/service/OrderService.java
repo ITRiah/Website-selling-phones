@@ -8,8 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.Project3.dto.OrderDTO;
+import com.example.Project3.entity.OrderDetails;
 import com.example.Project3.entity.Orders;
+import com.example.Project3.entity.Product;
+import com.example.Project3.entity.ProductDetails;
 import com.example.Project3.repo.OrderRepo;
+import com.example.Project3.repo.ProductDetailsRepo;
+import com.example.Project3.repo.ProductRepo;
 
 import jakarta.persistence.NoResultException;
 import jakarta.transaction.Transactional;
@@ -27,7 +32,14 @@ public interface OrderService {
 	
 	@Autowired
 	OrderRepo OrderRepo;
-
+	
+	@Autowired
+	ProductRepo productRepo;
+	
+	@Autowired
+	ProductDetailsRepo productDetailsRepo;
+	
+	
 	@Override
 	@Transactional
 	public void create(OrderDTO orderDTO) {
@@ -44,6 +56,23 @@ public interface OrderService {
 
 	@Override
 	public void delete(int id) {
+		Orders order = OrderRepo.findById(id).orElseThrow(NoResultException :: new);
+		
+		List<OrderDetails> orderDetails = order.getOrderDetails();
+		
+		for (OrderDetails orderDetail : orderDetails) {
+			int productId = orderDetail.getProduct().getId();
+			Product product = productRepo.findById(productId).orElseThrow(NoResultException :: new);
+			List<ProductDetails> productDetails = product.getProductDetails();
+			
+			for (ProductDetails productDetail : productDetails) {
+				if(orderDetail.getColor().equals(productDetail.getColor())) {
+					productDetail.setQuantity(productDetail.getQuantity() + orderDetail.getQuantity());
+					productDetailsRepo.save(productDetail);
+					break;
+				}
+			}
+		}
 		OrderRepo.deleteById(id);
 	}
 

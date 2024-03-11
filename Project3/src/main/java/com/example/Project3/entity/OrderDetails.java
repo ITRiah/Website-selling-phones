@@ -17,6 +17,8 @@ public class OrderDetails {
 	@ManyToOne
 	private Orders order;
 	
+	private String color;
+	
 	@ManyToOne
 	private Product product;
 	

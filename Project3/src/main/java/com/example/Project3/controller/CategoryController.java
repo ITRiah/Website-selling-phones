@@ -19,7 +19,7 @@ import com.example.Project3.service.CategoryService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/category")
+@RequestMapping("/admin/category")
 public class CategoryController {
 	@Autowired
 	CategoryService categoryService;

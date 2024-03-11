@@ -39,7 +39,6 @@ public interface CartService {
 	@Override
 	public void update(CartDTO CartDTO) {
 		Cart order = cartRepo.findById(CartDTO.getId()).orElseThrow(NoResultException :: new);
-		order.setStatus(CartDTO.getStatus());
 		cartRepo.save(order);
 	}
 

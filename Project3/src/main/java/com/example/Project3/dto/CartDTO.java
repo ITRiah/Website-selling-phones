@@ -20,9 +20,7 @@ public class CartDTO{
 	private int quantity;
 	
 	private double totalPrice;
-	
-	private String status;
-		
+			
 	@JsonFormat(pattern = "dd/MM/yyyy", timezone = "Asia/Ho_Chi_Minh")
 	private Date createdAt;
 	

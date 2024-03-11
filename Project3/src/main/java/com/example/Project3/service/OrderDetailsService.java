@@ -9,7 +9,13 @@ import org.springframework.stereotype.Service;
 
 import com.example.Project3.dto.OrderDetailsDTO;
 import com.example.Project3.entity.OrderDetails;
+import com.example.Project3.entity.Product;
+import com.example.Project3.entity.ProductDetails;
 import com.example.Project3.repo.OrderDetailsRepo;
+import com.example.Project3.repo.ProductDetailsRepo;
+import com.example.Project3.repo.ProductRepo;
+
+import jakarta.persistence.NoResultException;
 
 public interface OrderDetailsService {
 	void create(OrderDetailsDTO orderDetailsDTO);
@@ -21,11 +27,29 @@ class OrderDetailsServiceImpl implements OrderDetailsService {
 
 	@Autowired
 	OrderDetailsRepo orderDetailsRepo;
+	
+	@Autowired
+	ProductRepo productRepo;
+	
+	@Autowired
+	ProductDetailsRepo productDetailsRepo;
 
 	@Override
 	public void create(OrderDetailsDTO orderDetailsDTO) {
 		
 		OrderDetails orderDetails = new ModelMapper().map(orderDetailsDTO, OrderDetails.class);
+		
+		int productId = orderDetails.getProduct().getId();
+		Product product = productRepo.findById(productId).orElseThrow(NoResultException :: new);
+
+		List<ProductDetails> productDetails = product.getProductDetails();
+		
+		for (ProductDetails productDetail : productDetails) {
+			if(orderDetails.getColor().equals(productDetail.getColor()))
+				productDetail.setQuantity(productDetail.getQuantity() - orderDetails.getQuantity());
+				productDetailsRepo.save(productDetail);
+				break;
+		}
 		
 		orderDetailsRepo.save(orderDetails);
 	}

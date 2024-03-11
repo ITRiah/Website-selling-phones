@@ -25,7 +25,6 @@ public class Cart extends TimeAuditable{
 	
 	private int quantity;
 	private double totalPrice;
-	private String status;
 	
 	@OneToMany(mappedBy = "cart" , cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<CartDetail> cartDetails;
