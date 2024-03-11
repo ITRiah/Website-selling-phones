@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.Project3.dto.ProductDTO;
 import com.example.Project3.entity.Product;
-import com.example.Project3.entity.ProductDetails;
 import com.example.Project3.repo.ProductDetailsRepo;
 import com.example.Project3.repo.ProductRepo;
 

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.Project3.dto.ResponseDTO;
 import com.example.Project3.dto.UserDTO;
-import com.example.Project3.repo.UserRepo;
 import com.example.Project3.service.JWTService;
 import com.example.Project3.service.UserService;
 

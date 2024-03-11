@@ -12,40 +12,39 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.Project3.dto.CategoryDTO;
+import com.example.Project3.dto.CartDTO;
 import com.example.Project3.dto.ResponseDTO;
-import com.example.Project3.service.CategoryService;
-
-import jakarta.validation.Valid;
+import com.example.Project3.service.CartService;
 
 @RestController
-@RequestMapping("/category")
-public class CategoryController {
+@RequestMapping("/cart")
+public class CartController {
 	@Autowired
-	CategoryService categoryService;
+	CartService CartService;
 	
 	@GetMapping("/")
-	public ResponseDTO<List<CategoryDTO>> getAll() {
-		return ResponseDTO.<List<CategoryDTO>>builder()
+	public ResponseDTO<List<CartDTO>> getAll() {
+		return ResponseDTO.<List<CartDTO>>builder()
 					.status(200)
-					.data(categoryService.getAll())
+					.data(CartService.getAll())
 					.msg("ok")
 					.build();
 	}
 	
 	@GetMapping("/get-by-id")
-	public ResponseDTO<CategoryDTO> getById(@RequestParam("id") int id) {
+	public ResponseDTO<CartDTO> getById(@RequestParam("id") int id) {
 		
-		return ResponseDTO.<CategoryDTO>builder()
+		return ResponseDTO.<CartDTO>builder()
 				.status(200)
-				.data(categoryService.getById(id))
+				.data(CartService.getById(id))
 				.msg("ok")
 				.build();
 	}
 	
 	@PostMapping("/")
-	public ResponseDTO<Void> create(@RequestBody @Valid CategoryDTO CategoryDTO) {
-		categoryService.create(CategoryDTO);
+	public ResponseDTO<Void> create(@RequestBody CartDTO CartDTO) {
+		CartService.create(CartDTO);
+		
 		return ResponseDTO.<Void>builder()
 				.status(200)
 				.msg("done")
@@ -54,8 +53,8 @@ public class CategoryController {
 	
 	
 	@PutMapping("/")
-	public ResponseDTO<Void> update(@RequestBody CategoryDTO categoryDTO) {
-		categoryService.update(categoryDTO);
+	public ResponseDTO<Void> update(@RequestBody CartDTO categoryDTO) {
+		CartService.update(categoryDTO);
 		
 		return ResponseDTO.<Void>builder()
 				.status(200)
@@ -65,11 +64,10 @@ public class CategoryController {
 		
 	@DeleteMapping("/")
 	public ResponseDTO<Void> delete(@RequestParam("id") int id) {
-		categoryService.delete(id);
-		
-		return ResponseDTO.<Void>builder()
-				.status(200)
-				.msg("done")
-				.build();
+			CartService.delete(id);
+			return ResponseDTO.<Void>builder()
+					.status(200)
+					.msg("done")
+					.build();
 	}	
 }

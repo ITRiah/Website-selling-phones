@@ -3,25 +3,30 @@ package com.example.Project3.dto;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
+import com.example.Project3.entity.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.validation.constraints.Min;
 import lombok.Data;
 
 @Data
-public class OrderDTO {
-	private Integer id;
-
-	private String status;// new, pending , active
-
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
+public class CartDTO{
+	private int id;
+	
+	private User user;
+	
+	@Min(0)
+	private int quantity;
+	
+	private double totalPrice;
+	
+	private String status;
+		
 	@JsonFormat(pattern = "dd/MM/yyyy", timezone = "Asia/Ho_Chi_Minh")
 	private Date createdAt;
+	
 
-	private UserDTO user;
-
-	@JsonIgnoreProperties("order") 
-	private List<OrderDetailsDTO> detailsDTOs;
+	@JsonIgnoreProperties("cart") 
+	private List<CartDetailDTO> cartDetailDTOs; 
 }

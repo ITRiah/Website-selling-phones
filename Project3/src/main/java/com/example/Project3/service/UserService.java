@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.Project3.dto.SearchDTO;
 import com.example.Project3.dto.UserDTO;
-import com.example.Project3.entity.Product;
 import com.example.Project3.entity.User;
 import com.example.Project3.repo.UserRepo;
 

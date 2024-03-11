@@ -19,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.Project3.dto.ProductDTO;
 import com.example.Project3.dto.ResponseDTO;
-import com.example.Project3.repo.ProductRepo;
 import com.example.Project3.service.ProductService;
 
 import jakarta.servlet.http.HttpServletResponse;

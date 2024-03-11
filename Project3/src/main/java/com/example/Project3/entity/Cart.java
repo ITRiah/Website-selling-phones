@@ -7,24 +7,26 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Orders extends TimeAuditable {
+public class Cart extends TimeAuditable{
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY )
-	private Integer id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
 	
-	private String status;//new, pending , active
-	
-	@ManyToOne
+	@OneToOne
 	private User user;
 	
-	@OneToMany(mappedBy = "order" , cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<OrderDetails> orderDetails;
+	private int quantity;
+	private double totalPrice;
+	private String status;
+	
+	@OneToMany(mappedBy = "cart" , cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<CartDetail> cartDetails;
 }
