@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,15 +29,24 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+	
+	@Value("${upload.folder}")
+	private String uploadFolder;
 
 	@Autowired // Tìm và gán đối tượng đã được tạo trước nếu không nó là null
 	UserService service;
 	
 	@PostMapping("/upload")
     public ResponseDTO<String> uploadFile(@RequestParam("file") MultipartFile file,@RequestParam("id") int id ) throws IllegalStateException, IOException {
-            String fileName = file.getOriginalFilename();
-            String filePath = "E:/" + fileName;
-            file.transferTo(new File(filePath));
+            
+			if(!(new File(uploadFolder).exists())) {
+				new File(uploadFolder).mkdirs();
+			}
+			
+		
+			String fileName = file.getOriginalFilename();
+            String filePath =  fileName;
+            file.transferTo(new File(uploadFolder + filePath));
                         
             service.updateImage(id, filePath);
 
@@ -60,7 +70,7 @@ public class UserController {
 
 	@GetMapping("/download")
 	public void download(@RequestParam("fileName") String fileName, HttpServletResponse response) throws IOException {
-		File file = new File("E:/" + fileName);
+		File file = new File(uploadFolder + fileName);
 		Files.copy(file.toPath(), response.getOutputStream());// lấy dữ liệu từ file để tải về hình ảnh cho web
 	}
 

@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,47 +26,42 @@ import jakarta.servlet.http.HttpServletResponse;
 public class ProductDetailsController {
 	@Autowired
 	ProductDetailsService productDetailsService;
-	
-	
+
+	@Value("${upload.folder}")
+	private String uploadFolder;
+
 	@GetMapping("/")
 	public ResponseDTO<List<ProductDetailsDTO>> getByProductId(@RequestParam("id") int id) {
-		
-		return ResponseDTO.<List<ProductDetailsDTO>>builder()
-					.status(200)
-					.data(productDetailsService.getByProductId(id))
-					.msg("ok")
-					.build();
+
+		return ResponseDTO.<List<ProductDetailsDTO>>builder().status(200).data(productDetailsService.getByProductId(id))
+				.msg("ok").build();
 	}
-	
-	
-	
-    @PostMapping("/")
-    public ResponseDTO<Void> create(@ModelAttribute ProductDetailsDTO pd ) throws IllegalStateException, IOException {
-        	MultipartFile file = pd.getFile();
-            String fileName = file.getOriginalFilename();
-          
-                        
-            if (fileName != null) {
-            	  String filePath = "E:/" + fileName;
-                  file.transferTo(new File(filePath));
-          		pd.setImages(filePath);
 
-    		}
+	@PostMapping("/")
+	public ResponseDTO<Void> create(@ModelAttribute ProductDetailsDTO pd) throws IllegalStateException, IOException {
 
-    		
-    		System.out.println(pd.getImages());
-    		productDetailsService.create(pd);
+		if (!(new File(uploadFolder).exists())) {
+			new File(uploadFolder).mkdirs();
+		}
 
-    		return ResponseDTO.<Void>builder()
-    				.status(200)
-    				.msg("done")
-    				.build();
-    }
-    
-	
+		MultipartFile file = pd.getFile();
+		String fileName = file.getOriginalFilename();
+
+		if (fileName != null) {
+			String filePath = uploadFolder + fileName;
+			file.transferTo(new File(filePath));
+			pd.setImages(filePath);
+
+		}
+
+		productDetailsService.create(pd);
+
+		return ResponseDTO.<Void>builder().status(200).msg("done").build();
+	}
+
 	@GetMapping("/download")
 	public void download(@RequestParam("fileName") String fileName, HttpServletResponse response) throws IOException {
-		File file = new File("E:/" + fileName);
+		File file = new File(uploadFolder + fileName);
 		Files.copy(file.toPath(), response.getOutputStream());// lấy dữ liệu từ file để tải về hình ảnh cho web
 	}
 }

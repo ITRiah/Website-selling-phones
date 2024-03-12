@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -30,6 +31,8 @@ public class ProductController {
 	@Autowired
 	ProductService productService;
 	
+	@Value("${upload.folder}")
+	private String uploadFolder;
 	
 	@GetMapping("/")
 	public ResponseDTO<List<ProductDTO>> getAll() {
@@ -53,9 +56,13 @@ public class ProductController {
 	
     @PostMapping("/upload")
     public ResponseDTO<String> uploadFile(@RequestParam("file") MultipartFile file,@RequestParam("id") int id ) throws IllegalStateException, IOException {
-            String fileName = file.getOriginalFilename();
-            String filePath = "E:/" + fileName;
-            file.transferTo(new File(filePath));
+	    	if(!(new File(uploadFolder).exists())) {
+				new File(uploadFolder).mkdirs();
+			}
+    	
+    		String fileName = file.getOriginalFilename();
+            String filePath = fileName;
+            file.transferTo(new File( uploadFolder + filePath));
                         
             productService.updateImage(id, filePath);
 
@@ -69,7 +76,7 @@ public class ProductController {
 	
 	@GetMapping("/download")
 	public void download(@RequestParam("fileName") String fileName, HttpServletResponse response) throws IOException {
-		File file = new File("E:/" + fileName);
+		File file = new File(uploadFolder + fileName);
 		Files.copy(file.toPath(), response.getOutputStream());// lấy dữ liệu từ file để tải về hình ảnh cho web
 	}
     
