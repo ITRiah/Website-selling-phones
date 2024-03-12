@@ -30,9 +30,9 @@ public class SecurityConfig {
 	//Xác thực đăng  nhập
 	@Autowired //Tạo bean cho tham số vì autowire trên hàm.
 	public void config (AuthenticationManagerBuilder auth) throws Exception {
-		
+				
 		auth.userDetailsService(detailsService)
-			.passwordEncoder(new BCryptPasswordEncoder());
+			.passwordEncoder(new BCryptPasswordEncoder()); // son sánh với mật khẩu người dùng trong csdl
 		
 		
 //		auth.inMemoryAuthentication()
@@ -54,10 +54,10 @@ public class SecurityConfig {
 		
 		httpSecurity.authorizeRequests()
 			.requestMatchers("/admin/**")
-			.hasAnyAuthority("ROLE_ADMIN", "ROLE_SUBADMIN")
-			.requestMatchers("/customer/**")
-			.authenticated()
-			.anyRequest().permitAll()
+			.hasAnyAuthority("ROLE_ADMIN", "ROLE_SUBADMIN") // với đường dẫn admin thì cần có quyền là role_admin/subadmin
+			.requestMatchers("/customer/**") 
+			.authenticated() // với đường dẫn customer chỉ cần đăng nhập
+			.anyRequest().permitAll() // tất cả các request khác không cần quyền
 			.and()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
 			.and().httpBasic()

@@ -45,10 +45,11 @@ class OrderDetailsServiceImpl implements OrderDetailsService {
 		List<ProductDetails> productDetails = product.getProductDetails();
 		
 		for (ProductDetails productDetail : productDetails) {
-			if(orderDetails.getColor().equals(productDetail.getColor()))
+			if(orderDetails.getColor().equals(productDetail.getColor())) {
 				productDetail.setQuantity(productDetail.getQuantity() - orderDetails.getQuantity());
 				productDetailsRepo.save(productDetail);
 				break;
+			}
 		}
 		
 		orderDetailsRepo.save(orderDetails);

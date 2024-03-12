@@ -19,7 +19,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Component
-public class JwtTokenFilter extends OncePerRequestFilter{
+public class JwtTokenFilter extends OncePerRequestFilter{  // kiểm tra và xác thực token JWT
+													//sau đó cập nhật context của Security để xác thực người dùng trong mỗi request.
 	
 	@Autowired
 	JWTService jwtService;
@@ -30,7 +31,7 @@ public class JwtTokenFilter extends OncePerRequestFilter{
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		
+
 		String bearerToken = request.getHeader("Authorization");
 		
 		if(bearerToken != null && bearerToken.startsWith("Bearer ")) {

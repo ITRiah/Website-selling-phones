@@ -22,11 +22,14 @@ public class LoginService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		// Tìm user theo username , username is unique
 		User user = userRepo.findByUsername(username);
 
 		if (user != null) {
+			//Tạo list quyền
 			List<SimpleGrantedAuthority> list = new ArrayList<SimpleGrantedAuthority>();
 
+			//Lấy quyền của user thêm vào list quyền
 			for (Role role : user.getRoles()) {
 				list.add(new SimpleGrantedAuthority(role.getName()));
 			}

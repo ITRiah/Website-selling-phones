@@ -21,7 +21,7 @@ import com.example.Project3.service.ProductDetailsService;
 import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
-@RequestMapping("/product-details")
+@RequestMapping("/admin/product-details")
 public class ProductDetailsController {
 	@Autowired
 	ProductDetailsService productDetailsService;

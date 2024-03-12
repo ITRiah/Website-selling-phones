@@ -12,10 +12,11 @@ import jakarta.persistence.PersistenceContext;
 
 @Repository
 public class OrderDAO { //Phù hợp cho việc viết những câu lệnh SQL khó cần if else , cộng trừ câu lệnh
-	@PersistenceContext
-	EntityManager entityManager;
+	@PersistenceContext // cho Spring biết rằng trường này nên được inject với một EntityManager được quản lý bởi JPA.
+	EntityManager entityManager; 
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")//để thông báo cho trình biên dịch Java rằng việc sử dụng 
+								  //kiểu dữ liệu không kiểm tra có thể an toàn trong ngữ cảnh cụ thể
 	public List<Orders> orders(Date s){// neu muon phan trang can them tham so start, end.
 		String jpql = "SELECT o FROM Order o WHERE o.createAt >= :x ";
 		

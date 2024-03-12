@@ -9,7 +9,7 @@ import lombok.Data;
 public class CartDetailDTO {
 	private int id;
 	
-	@JsonIncludeProperties("id") // bỏ đi thuộc tính tạo vòng lặp ở class chính
+	//@JsonIncludeProperties("id") // chỉ lấy id
 	private CartDTO cart;
 	
 	private ProductDTO product;

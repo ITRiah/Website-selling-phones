@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -32,5 +33,6 @@ public class ProductDTO{
 
 	private CategoryDTO category;
 	
+	@JsonIgnoreProperties("product")  //Khi gọi đến productDetailsDTOs sẽ không gọi vào product
 	private List<ProductDetailsDTO> productDetailsDTOs;
 }

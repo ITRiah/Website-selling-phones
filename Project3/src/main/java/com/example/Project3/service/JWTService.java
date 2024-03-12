@@ -31,20 +31,20 @@ public class JWTService {
 	}
 	
 	//check hiệu lực và độ chính xác của token
-	public boolean isValidToken(String token) {
-		try {
-			Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token); //jws not jwt
-			return true;
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		return false;
-	}
+//	public boolean isValidToken(String token) {
+//		try {
+//			Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token); //jws not jwt
+//			return true;
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//		}
+//		return false;
+//	}
 	
-	//Lấy subject của token
+	//Lấy subject của token , nếu có -> token còn hiệu lực và là token đúng.
 	public String getUserName(String token) {
 		try {
-			return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+			return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject(); //chú ý Jws
 		} catch (Exception e) {
 			e.getStackTrace();
 		}

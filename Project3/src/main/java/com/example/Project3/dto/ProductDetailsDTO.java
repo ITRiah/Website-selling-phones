@@ -3,7 +3,7 @@ package com.example.Project3.dto;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 
 import jakarta.validation.constraints.Min;
 import lombok.Data;
@@ -12,7 +12,7 @@ import lombok.Data;
 public class ProductDetailsDTO {
 	private int id;
 	
-	@JsonIgnoreProperties("productDetailsDTOs")
+	//@JsonIncludeProperties("id") //chỉ lấy id
 	private ProductDTO product;
 	
 	private String color;
